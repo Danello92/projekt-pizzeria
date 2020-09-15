@@ -142,41 +142,43 @@
     }
     processOrder(){
       const thisProduct = this;
-      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);	      
-      /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */	      
-      const formData = utils.serializeFormToObject(thisProduct.form);	      
-      console.log('thisProduct.params', thisProduct.params);	     
-      /* set variable price to equal thisProduct.data.price */	      
-      let basicPrice = thisProduct.data.price;	 
-      console.log(basicPrice);     
-      /* START LOOP: for each paramId in thisProduct.data.params */	     
-      for (let paramId in thisProduct.data.params) {	   
-        /* save the element in thisProduct.data.params with key paramId as const param */	       
-        const param = thisProduct.data.params[paramId];	        
-        // console.log('param', param);	       
-        /* START LOOP: for each optionId in param.options */	       
-        for (let optionId in param.options) {	      
-          // console.log('optionId', optionId);	         
-          /* save the element in param.options with key optionId as const option */	     
-          const option = param.options[optionId];	     
-          console.log('option', option);	        
-          /* START IF: if option is selected and option is not default */	       
-          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;	          
-          // console.log('optionSelected', optionSelected);	          
-          if (optionSelected && !option.default) {	          
-            /* add price of option to variable price */	            
-            console.log('!option.default', !option.default);	          
-            basicPrice += option.price;	           
-            console.log('price', basicPrice);	            
-            /* END IF: if option is selected and option is not default */	            
+
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log(formData);
+      /* set variable price to equal thisProduct.data.price */
+      let basicPrice = thisProduct.data.price;
+      // console.log(basicPrice);
+      const dataParams = thisProduct.data.params;
+      /* START LOOP: for each paramId in thisProduct.data.params */
+      for (let paramId in dataParams) {
+        /* save the element in thisProduct.data.params with key paramId as const param */
+        const param = dataParams[paramId];
+        // console.log('param', param);
+        /* START LOOP: for each optionId in param.options */
+        for (let optionId in param.options) {
+          // console.log('optionId', optionId);
+          /* save the element in param.options with key optionId as const option */
+          const option = param.options[optionId];
+          // console.log('option', option);
+          /* START IF: if option is selected and option is not default */
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          console.log('optionSelected', optionSelected);
+          if (optionSelected && !option.default) {
+            /* add price of option to variable price */
+            // console.log('!option.default', !option.default);
+            basicPrice += option.price;
+            // console.log('price', basicPrice);
+            /* END IF: if option is selected and option is not default */
           }	  
           /* START ELSE IF: if option is not selected and option is default */
-          else if (option.default && !optionSelected) {	         
-            /* deduct price of option from price */	           
-            console.log('!optionSelected', !optionSelected);	           
-            console.log('option.default', option.default);	           
+          else if (option.default && !optionSelected) {
+            /* deduct price of option from price */
+            // console.log('!optionSelected', !optionSelected);
+            // console.log('option.default', option.default);
             basicPrice -= option.price;
-            console.log('price', basicPrice);
+            // console.log('price', basicPrice);
           }
           /* END ELSE IF: if option is not selected and option is default */
         }
