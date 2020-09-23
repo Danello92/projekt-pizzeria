@@ -147,6 +147,10 @@
     initAmountWigdet(){
       const thisProduct = this;
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){
+        // thisProduct.amountWidgetElem.addEventListener('updated', thisProduct.processOrder());
+        thisProduct.processOrder();
+      });
     }
     processOrder(){
       const thisProduct = this;
@@ -209,6 +213,7 @@
       }
       /* END LOOP: for each paramId in thisProduct.data.params */
       /* set the contents of thisProduct.priceElem to be the value of variable price */
+      basicPrice *= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = basicPrice;
     }
   }
@@ -216,6 +221,7 @@
     constructor(element){
       const thisWidget = this;
       thisWidget.getElements(element);
+      thisWidget.value = settings.amountWidget.defaultValue;
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initAction();
       console.log('amount widget', thisWidget);
@@ -225,19 +231,22 @@
     
     getElements(element){
       const thisWidget = this;
-
       thisWidget.element = element;
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
     }
+
     setValue(value){
       const thisWidget = this;
       const newValue = parseInt(value);
+      console.log(newValue);
       //ADD :validation
-      thisWidget.value = newValue;
+      if(newValue!=false && newValue!=thisWidget.value && newValue<=settings.amountWidget.defaultMax &&  newValue>=settings.amountWidget.defaultMin){
+        thisWidget.value = newValue;
+        thisWidget.annoumce();
+      } 
       thisWidget.input.value = thisWidget.value;
-   
     }
     initAction(){
       const thisWidget = this;
@@ -246,7 +255,7 @@
       });
       thisWidget.linkDecrease.addEventListener('click', function(event){
         event.preventDefault();
-        if (thisWidget.value>0){
+        if (thisWidget.value>1){
           thisWidget.setValue((thisWidget.value)-1);
         }else
         {
@@ -263,9 +272,9 @@
         
       });
     }
-    anoumce(){
+    annoumce(){
       const thisWidget = this;
-      const event = new Event('dupa');
+      const event = new Event('updated');
       thisWidget.element.dispatchEvent(event);
     }
   }
