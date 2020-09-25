@@ -284,7 +284,7 @@
     }
     initAction(){
       const thisWidget = this;
-      const thisCart = this;
+      
       thisWidget.input.addEventListener('change', function(){
         thisWidget.setValue(thisWidget.input.value);
       });
@@ -306,7 +306,7 @@
         }
         
       });
-      thisCart.dom.wrapper.addEventListener('click', thisCart.select.toggleTrigger);
+      
     }
     annoumce(){
       const thisWidget = this;
@@ -327,6 +327,12 @@
       thisCart.dom = {};
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+    }
+    initAction(){
+      const thisCart = this;
+      thisCart.dom.toggleTrigger.addEventListener('click', function(){
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
     }
   }
   const app = {
