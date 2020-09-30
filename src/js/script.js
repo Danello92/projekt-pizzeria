@@ -72,6 +72,11 @@
     cart: {
       defaultDeliveryFee: 20,
     },
+    db: {
+      url: '//localhost:3131',
+      product: 'product',
+      order: 'order',
+    },
     // CODE ADDED END
   };
   const templates = {
@@ -317,16 +322,23 @@
     getElements(element){
       const thisCart = this;
       thisCart.dom = {};
+      thisCart.address = 'wrocław';
+      thisCart.phone = '123456789';
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
+      thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form);
       for(let key of thisCart.renderTotalsKeys){
         thisCart.dom[key] = thisCart.dom.wrapper.querySelectorAll(select.cart[key]);
       }
     }
     initAction(){
       const thisCart = this;
+      thisCart.dom.form.addEventListener('submit', function(){
+        event.preventDefault();
+        thisCart.sendOrder();
+      });
       thisCart.dom.toggleTrigger.addEventListener('click', function(){
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
@@ -338,6 +350,38 @@
         thisCart.remove(event.detail.cartProduct);
       });
     }
+    sendOrder(){
+      const thisCart = this;
+      const url = settings.db.url + '/' + settings.db.order;
+      const payload = {
+        address: thisCart.address,
+        phone: thisCart.phone,
+        totalNumber : thisCart.totalPrice,
+        subtotalPrice : thisCart.subtotalPrice,
+        deliveryFee : settings.cart.defaultDeliveryFee,
+        totalPrice: thisCart.totalPrice,
+        products : [],
+      };
+      for( let products of thisCart.products){
+        payload.products.push(products.getData());
+      }
+      // console.log(url);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+      // console.log(options);
+      fetch(url, options)
+        .then(function(response){
+          return response.json();
+        }).then(function(prasedResponse){
+          console.log('sendoreder', prasedResponse);
+        });
+    }
+    
     add(menuProduct){
       const thisCart = this;
       const generatedHTML = templates.cartProduct(menuProduct);
@@ -438,9 +482,32 @@
       thisCartProduct.dom.wrapper.dispatchEvent(event);
       console.log('remove', thisCartProduct);
     }
+    getData(){
+      const thisCartProduct = this;
+      thisCartProduct.data = {
+        id: thisCartProduct.id,
+        amount:thisCartProduct.amount,
+        price: thisCartProduct.price,
+        priceSingle: thisCartProduct.priceSingle,
+        params: thisCartProduct.priceSingle,
+        
+      }
+      return thisCartProduct.data;
+    
+    }
   }
   
   const app = {
+    initMenu: function(){
+      //const testProduct = new Product();
+      const thisApp = this;
+      // console.log('thisApp.data:', thisApp.data);
+      for(let productData in thisApp.data.products){
+        // new Product (productData, thisApp.data.products[productData]);
+        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
+      }
+      //console.log ('testProduct:' , testProduct);
+    },
     cart: function(){
       const thisApp = this;
       const cartElem = document.querySelector(select.containerOf.cart);
@@ -449,16 +516,22 @@
     },
     initData: function(){
       const thisApp = this;
-      thisApp.data = dataSource;
-      // console.log('thisApp.data:', thisApp.data);
-      for(let productData in thisApp.data.products){
-        new Product (productData, thisApp.data.products[productData]);
-      }
+      thisApp.data = {};
+      const url = settings.db.url + '/' + settings.db.product;
+      fetch(url)
+        .then(function(rawResponse){
+          return rawResponse.json();
+        })
+        .then(function(prasedResponse){
+          console.log('prasedResponse', prasedResponse);
+          //save prasedResponse as thisApp.data.products
+          thisApp.data.products = prasedResponse;
+          //execute init.Menu metod
+          thisApp.initMenu();
+        });
+      console.log('thisApp.data:', JSON.stringify(thisApp.data));
     },
-    initMenu: function(){
-      //const testProduct = new Product();
-      //console.log ('testProduct:' , testProduct);
-    },
+ 
     init: function(){
       const thisApp = this;
       // console.log('*** App starting ***');
@@ -467,7 +540,7 @@
       // console.log('settings:', settings);
       // console.log('templates:', templates);
       thisApp.initData();
-      thisApp.initMenu();
+      // thisApp.initMenu();
     },
   };
   app.cart();
