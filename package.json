@@ -34,6 +34,7 @@
     },
     "devDependencies": {
         "autoprefixer-cli": "^1.0.0",
+	"json-server": "^0.16.1",
         "browser-sync": "^2.26.3",
         "copyfiles": "^2.1.0",
         "eslint": "^5.14.1",
