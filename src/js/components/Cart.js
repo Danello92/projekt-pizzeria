@@ -1,12 +1,10 @@
 import {select, settings, classNames, templates} from '../settings.js';
 import {utils} from '../utils.js';
 import {CartProduct} from './CartProduct.js';
-
 export class Cart {
   constructor(element) {
     const thisCart = this;
     thisCart.products = [];
-    thisCart.deliveryFee = settings.cart.defaultDeliveryFee;
     thisCart.getElements(element);
     thisCart.initAction();
     // console.log('new cart', thisCart);
@@ -28,18 +26,20 @@ export class Cart {
   } 
   initAction() {
     const thisCart = this;
-    thisCart.dom.form.addEventListener('submit', function (event) {
-      event.preventDefault(); 
-      thisCart.sendOrder();
-    });
+   
     thisCart.dom.toggleTrigger.addEventListener('click', function () {
       thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
     });
-    thisCart.dom.productList.addEventListener('updated', function () {
+    thisCart.dom.productList.addEventListener('updated', function (event) {
+      event.preventDefault();
       thisCart.update();
     });
     thisCart.dom.wrapper.addEventListener('remove', function (event) {
       thisCart.remove(event.detail.cartProduct);
+    });
+    thisCart.dom.form.addEventListener('submit', function (event) {
+      event.preventDefault(); 
+      thisCart.sendOrder();
     });
   }
   sendOrder() {
@@ -76,19 +76,19 @@ export class Cart {
   add(menuProduct) {
     const thisCart = this;
     const generatedHTML = templates.cartProduct(menuProduct);
-    // console.log(generatedHTML);
+    console.log(menuProduct);
     const generateDOM = utils.createDOMFromHTML(generatedHTML);
     // console.log(generateDOM);
     const elemCart = document.querySelector(select.cart.productList);
-
     elemCart.appendChild(generateDOM);
-    console.log('menuProduct',menuProduct);
+    // console.log('menuProduct',menuProduct);
     thisCart.products.push(new CartProduct(menuProduct, generateDOM));
     console.log('thisCart.Products', menuProduct);
-    
+    thisCart.update();
   }
   update() {
     const thisCart = this;
+    
     thisCart.totalNumber = 0;
     thisCart.subtotalPrice = 0;
     thisCart.deliveryFee = settings.cart.defaultDeliveryFee;
@@ -96,9 +96,10 @@ export class Cart {
     for (let cartPrice of thisCart.products) {
       thisCart.totalNumber += cartPrice.amount;
       thisCart.subtotalPrice += cartPrice.price;
+  
     }
     thisCart.totalPrice = thisCart.deliveryFee + thisCart.subtotalPrice;
-    //console.log(this.totalNumber,this.totalPrice,this.subtotalPrice);
+    console.log('totalnumber', thisCart.totalNumber,'totalprice',thisCart.totalPrice, 'totalsubprice',thisCart.subtotalPrice);
     for (let key of thisCart.renderTotalsKeys) {
       for (let elem of thisCart.dom[key]) {
         elem.innerHTML = thisCart[key];
@@ -108,11 +109,12 @@ export class Cart {
   remove(cartProduct) {
     const thisCart = this;
     const index = thisCart.products.indexOf(cartProduct);
-    // console.log('index', index);
-    const elem = thisCart.products.slice(index);
+    console.log('index', index);
+    const elem = thisCart.products.slice(index, index.length);
     console.log('elem', elem);
     cartProduct.dom.wrapper.remove();
     // console.log('cart remove', cartProduct.dom.wrapper);
+    thisCart.products.pop();
     thisCart.update();
   }
 }

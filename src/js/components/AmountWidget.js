@@ -22,7 +22,7 @@ export class AmountWidget {
     const newValue = parseInt(value);
     // console.log(newValue);
     //ADD :validation
-    if (newValue != false && newValue != thisWidget.value && newValue <= settings.amountWidget.defaultMax && newValue >= settings.amountWidget.defaultMin) {
+    if ( newValue != thisWidget.value && newValue <= settings.amountWidget.defaultMax && newValue >= settings.amountWidget.defaultMin) {
       thisWidget.value = newValue;
       thisWidget.annoumce();
     }
@@ -37,7 +37,8 @@ export class AmountWidget {
       event.preventDefault();
       thisWidget.setValue((thisWidget.value) - 1);
     });
-    thisWidget.linkIncrease.addEventListener('click', function () {
+    thisWidget.linkIncrease.addEventListener('click', function (event) {
+      event.preventDefault();
       thisWidget.setValue((thisWidget.value) + 1);
     });
   }

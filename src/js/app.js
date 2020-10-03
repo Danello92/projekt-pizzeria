@@ -19,8 +19,7 @@ const app = {
     thisApp.cart = new Cart(cartElem);
     // console.log(this);
     thisApp.productList = document.querySelector(select.containerOf.menu);
-    console.log(thisApp.product);
-    thisApp.productList.addEventListnser('add-to-cart', function(event){
+    thisApp.productList.addEventListener('add-to-cart', function(event){
       app.cart.add(event.detail.product);
     });
   },
