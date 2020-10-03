@@ -12,16 +12,13 @@
   &__header {
     @include flex(row, center, space-between);
     margin-bottom: ($base-size * 2);
-    font-family: $font-header;
-    font-size: 22px;
+   
     cursor: pointer;
   }
 
   &__name {
     position: relative;
-    margin: 0;
-    font-weight: $font-semibold;
-    text-transform: uppercase;
+    @extend .h1;
   }
 
   &__icon {
@@ -32,11 +29,31 @@
     font-size: ($base-size * 1.5);
     transition: $transition;
   }
-
   &__base-price {
-    font-weight: $font-light;
+    @extend .h1;
   }
-
+  .main-nav {
+    position: absolute;
+    @include flex(row, flex-start, flex-start);
+    bottom: ($base-size * -8);
+    a {
+      @extend .h2;
+      color: $color-main;
+      text-decoration: none;
+      margin-right: ($base-size * 2);
+      text-align: center;
+      padding: $base-size ($base-size * 2);
+      background: darken($color-dark, 5%);
+      border-top-left-radius: $radius;
+      border-top-right-radius: $radius;
+  
+      &.active {
+        background: lighten($color-dark, 75%);
+      }
+  
+    }
+  
+  }
   &__description {
     color: lighten($color-dark, 10%);
   }
@@ -54,9 +71,7 @@
   }
 
   &__params-title {
-    font-size: 14px;
-    font-weight: $font-bold;
-    text-transform: uppercase;
+    @extend .h2;
     margin: ($base-size * 2) 0;
   }
 
