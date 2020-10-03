@@ -12,7 +12,6 @@
   &__header {
     @include flex(row, center, space-between);
     margin-bottom: ($base-size * 2);
-   
     cursor: pointer;
   }
 
@@ -29,13 +28,16 @@
     font-size: ($base-size * 1.5);
     transition: $transition;
   }
+
   &__base-price {
     @extend .h1;
   }
+
   .main-nav {
     position: absolute;
     @include flex(row, flex-start, flex-start);
     bottom: ($base-size * -8);
+
     a {
       @extend .h2;
       color: $color-main;
@@ -50,10 +52,9 @@
       &.active {
         background: lighten($color-dark, 75%);
       }
-  
     }
-  
   }
+
   &__description {
     color: lighten($color-dark, 10%);
   }
