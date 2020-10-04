@@ -1,4 +1,4 @@
-import Handlebars from './utils.js';
+/* global Handlebars */
 
 export const select = {
   templateOf: {
@@ -108,6 +108,9 @@ export const settings = {
   cart: {
     defaultDeliveryFee: 20,
   },
+  booking: {
+    tableIdAttribute: 'data-table',
+  },
   db: {
     url: '//localhost:3131',
     product: 'product',
@@ -119,15 +122,14 @@ export const settings = {
     notRepeatParam: 'repeat=false',
     repeatParam: 'repeat_ne=false',
   },
-  booking: {
-    tableIdAttribute: 'data-table',
-  },
+
   // CODE ADDED END
 };
 export const templates = {
   menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
-  // CODE ADDED START
+
   cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
-  // CODE ADDED END
+  
   bookingWidget: Handlebars.compile(document.querySelector(select.templateOf.bookingWidget).innerHTML),
+  
 };

@@ -50,7 +50,6 @@ utils.numberToHour = function(number){
 
 utils.hourToNumber = function(hour){
   const parts = hour.split(':');
-
   return parseInt(parts[0]) + parseInt(parts[1])/60;
 };
 
@@ -72,4 +71,4 @@ Handlebars.registerHelper('joinValues', function(input, options) {
   return Object.values(input).join(options.fn(this));
 });
 
-export default Handlebars;
+export default utils;

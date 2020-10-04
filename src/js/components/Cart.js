@@ -83,7 +83,7 @@ export class Cart {
     elemCart.appendChild(generateDOM);
     // console.log('menuProduct',menuProduct);
     thisCart.products.push(new CartProduct(menuProduct, generateDOM));
-    console.log('thisCart.Products', menuProduct);
+    // console.log('thisCart.Products', menuProduct);
     thisCart.update();
   }
   update() {
