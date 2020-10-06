@@ -1,52 +1,56 @@
-import {classNames, select, settings} from './settings.js';
+import {
+  classNames,
+  select,
+  settings
+} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
 
 
 const app = {
-  initBooking: function(){
-    
+  initBooking: function () {
+
     const thisApp = this;
 
     thisApp.containerBooking = document.querySelector(select.containerOf.booking);
 
     thisApp.booking = new Booking(thisApp.containerBooking);
   },
-  initPages: function(){
+  initPages: function () {
     const thisApp = this;
-    
+
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
-    
-    thisApp.navLinks= document.querySelectorAll(select.nav.links);
-    
-    const idFromHash = window.location.hash.replace('#/','');
+
+    thisApp.navLinks = document.querySelectorAll(select.nav.links);
+
+    const idFromHash = window.location.hash.replace('#/', '');
 
     let pageMatchingHash = thisApp.pages[0].id;
-    
-    for(let page of thisApp.pages){
-      if(page.id == idFromHash){
+
+    for (let page of thisApp.pages) {
+      if (page.id == idFromHash) {
         pageMatchingHash = page.id;
         break;
       }
     }
 
     thisApp.activePage(pageMatchingHash);
-    
-    for(let link of thisApp.navLinks){
-      link.addEventListener('click', function(event){
+
+    for (let link of thisApp.navLinks) {
+      link.addEventListener('click', function (event) {
         const clikcElement = this;
         event.preventDefault();
 
         //get page id form attribute href
-        const id = clikcElement.getAttribute('href').replace('#','');
+        const id = clikcElement.getAttribute('href').replace('#', '');
 
-        
+
         //run thisApp.activePage with that id
         thisApp.activePage(id);
 
         //change URL hash
-        window.location.hash = '#/'+ id;
+        window.location.hash = '#/' + id;
 
       });
     }
@@ -67,7 +71,7 @@ const app = {
     thisApp.cart = new Cart(cartElem);
     // console.log(this);
     thisApp.productList = document.querySelector(select.containerOf.menu);
-    thisApp.productList.addEventListener('add-to-cart', function(event){
+    thisApp.productList.addEventListener('add-to-cart', function (event) {
       app.cart.add(event.detail.product);
     });
   },
@@ -88,18 +92,18 @@ const app = {
       });
     console.log('thisApp.data:', JSON.stringify(thisApp.data));
   },
-  activePage:function(pagesId){
+  activePage: function (pagesId) {
     const thisApp = this;
 
     // add class "active" to matching pages, remove form non-matchning
-    for(let page of thisApp.pages){
-      page.classList.toggle(classNames.pages.active, page.id == pagesId );
+    for (let page of thisApp.pages) {
+      page.classList.toggle(classNames.pages.active, page.id == pagesId);
     }
     // add class "active" to matching link, remove form non-matchning
-    for(let link of thisApp.navLinks){
+    for (let link of thisApp.navLinks) {
       link.classList.toggle(
         classNames.nav.active,
-        link.getAttribute('href') == '#' + pagesId 
+        link.getAttribute('href') == '#' + pagesId
       );
     }
 
