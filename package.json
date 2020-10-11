@@ -30,13 +30,18 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        
-        "json-server": "^0.16.1"
+        "bower-npm-resolver": "^0.11.0",
+        "flatpickr": "^4.6.6"
     },
+"resolvers": [
+    "bower-npm-resolver"
+  ],
     "devDependencies": {
-	"handlebars": "^4.7.6",
+        "rangeslider-pure": "^0.4.11",
+	"bower-npm-resolver": "^0.11.0",
+        "flatpickr": "^4.6.6",
+        "handlebars": "^4.7.6",
         "autoprefixer-cli": "^1.0.0",
-        "json-server": "^0.16.1",
         "browser-sync": "^2.26.3",
         "copyfiles": "^2.1.0",
         "eslint": "^5.14.1",
@@ -47,6 +52,7 @@
         "nu-html-checker": "^0.1.0",
         "onchange": "^5.2.0",
         "stylelint": "^9.10.1",
-        "stylelint-scss": "^3.5.4"
+        "stylelint-scss": "^3.5.4",
+        "json-server": "^0.16.1"
     }
 }

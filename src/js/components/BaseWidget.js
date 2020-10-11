@@ -1,4 +1,4 @@
-class BaseWidget {
+export class BaseWidget {
   constructor(wrapperElement, initialValue){
     const thisWigdet =  this;
     thisWigdet.dom = {};
