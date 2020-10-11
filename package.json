@@ -31,11 +31,9 @@
     "license": "ISC",
     "dependencies": {
         "bower-npm-resolver": "^0.11.0",
-        "flatpickr": "^4.6.6"
+        "flatpickr": "^4.6.6",
+ 	"json-server": "^0.16.1"
     },
-"resolvers": [
-    "bower-npm-resolver"
-  ],
     "devDependencies": {
         "rangeslider-pure": "^0.4.11",
 	"bower-npm-resolver": "^0.11.0",
