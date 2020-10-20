@@ -84,13 +84,13 @@ const app = {
         return rawResponse.json();
       })
       .then(function (prasedResponse) {
-        console.log('prasedResponse', prasedResponse);
+        // console.log('prasedResponse', prasedResponse);
         //save prasedResponse as thisApp.data.products
         thisApp.data.products = prasedResponse;
         //execute init.Menu metod
         thisApp.initMenu();
       });
-    console.log('thisApp.data:', JSON.stringify(thisApp.data));
+  // console.log('thisApp.data:', JSON.stringify(thisApp.data));
   },
   activePage: function (pagesId) {
     const thisApp = this;
