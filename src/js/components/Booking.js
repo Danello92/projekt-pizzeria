@@ -186,7 +186,7 @@ export class Booking {
     for(let selected of selectedTables){
       selected.classList.remove(classNames.booking.tableBooked);
     }
-    thisBooking.bookedTable;
+    thisBooking.orderTable();
   }
   sentReservation() {
     const thisBooking = this;
@@ -196,7 +196,7 @@ export class Booking {
     const order = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: parseInt(thisBooking.tableId),
+      table:  parseInt(thisBooking.selectedTable),
       peopleAmount: thisBooking.widgetPeople.value,
       duration: thisBooking.widgethoursAmount.value,
       starters: [],
@@ -223,7 +223,7 @@ export class Booking {
         return response.json();
       }).then(function (parsedResponse) {
         thisBooking.parsedResponse = {};
-        // thisBooking.getData();
+      
         console.log(parsedResponse);
      
         thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration, parsedResponse.table);
