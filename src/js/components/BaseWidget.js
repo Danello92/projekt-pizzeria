@@ -1,10 +1,10 @@
 export class BaseWidget {
   constructor(wrapperElement, initialValue){
-    const thisWigdet =  this;
-    thisWigdet.dom = {};
-    thisWigdet.dom.wrapper = wrapperElement;
+    const thisWidget =  this;
+    thisWidget.dom = {};
+    thisWidget.dom.wrapper = wrapperElement;
 
-    thisWigdet.correctValue = initialValue;
+    thisWidget.correctValue = initialValue;
   }
 
   get value(){
@@ -15,7 +15,7 @@ export class BaseWidget {
 
   set value(value) {
     const thisWidget = this;
-    const newValue = thisWidget.pareseValue(value);
+    const newValue = thisWidget.parseValue(value);
     // console.log(newValue);
     //ADD :validation
     if (newValue != thisWidget.correctValue && thisWidget.isValid(newValue)) {
@@ -29,7 +29,7 @@ export class BaseWidget {
 
     thisWidget.value = value;
   }
-  pareseValue(value) {
+  parseValue(value) {
     return parseInt(value);
   }
 
