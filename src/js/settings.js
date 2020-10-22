@@ -67,11 +67,12 @@ export const select = {
     phone: '[name="phone"]',
     address: '[name="address"]',
     starters: '[name="starter"]',
-    form: '.booking-form'
+    form: '.booking-form',
   },
   nav: {
     links: '.main-nav a',
   },
+  
   // CODE ADDED END
 };
 export const classNames = {
@@ -126,9 +127,7 @@ export const settings = {
     notRepeatParam: 'repeat=false',
     repeatParam: 'repeat_ne=false',
   },
-  starters: {
-    starterAttribute: 'value',
-  },
+ 
 
   // CODE ADDED END
 };
